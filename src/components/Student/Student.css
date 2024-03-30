@@ -1,0 +1,47 @@
+.student .custom-heading {
+  @apply text-white font-bold w-full bg-studentlogin h-16 flex justify-center items-center text-[1.2rem];
+}
+
+.student .info {
+  @apply flex flex-col ms-56 items-start pb-8 pt-2;
+}
+
+.student .custom-nav {
+  @apply flex justify-evenly  gap-x-1 mx-1;
+}
+
+.student .years {
+  @apply flex justify-evenly gap-x-1 mx-1;
+}
+
+.student .image {
+  @apply ms-7 w-32 h-36 absolute top-[20px] m-2 outline outline-4 outline-white;
+}
+
+.student .custom-nav button {
+  @apply mb-1 bg-gray-400 text-nowrap text-[1rem]  text-black w-full py-1;
+}
+.student .years button {
+  @apply mb-1 bg-gray-300 outline outline-white/90 rounded-t-md  text-nowrap  text-[1rem]  text-black w-full;
+}
+.student .custom-nav .not-active {
+  @apply m-1 bg-blue-600 p-2 w-full;
+}
+
+@media (max-width: 550px) {
+  .student .custom-nav button {
+    @apply text-nowrap   px-0 text-center w-full overflow-hidden text-xs;
+  }
+
+  .student .image {
+    @apply absolute ms-3 w-20 h-28 top-[40px] m-2;
+  }
+
+  .student .info {
+    @apply flex flex-col ms-24 items-start pb-8 px-1 pt-2;
+  }
+
+  .student .years button {
+    @apply text-nowrap  px-0 text-center w-full overflow-hidden text-xs;
+  }
+}

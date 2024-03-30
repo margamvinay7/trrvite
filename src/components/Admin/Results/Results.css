@@ -1,0 +1,110 @@
+.results .details {
+  @apply flex flex-row gap-x-1 m-4;
+}
+
+.results .details input {
+  @apply w-[120px] rounded-sm;
+}
+
+.results > .input {
+  @apply flex flex-row gap-x-1 m-4;
+}
+
+.results select {
+  @apply w-28 rounded-sm;
+}
+
+.results .popup-container {
+  position: relative; /* Needed for background blur */
+}
+
+.results .popup {
+  position: fixed; /* Keep popup above other elements */
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 200px;
+  border-radius: 20px;
+  transform: translate(-50%, -50%); /* Center the popup */
+  background-color: white;
+  padding: 30px;
+
+  z-index: 1; /* Ensure popup is above other content */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); Optional subtle shadow */
+}
+
+.results .popup-overlay {
+  /* Style for background blur (adjust properties as needed) */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+  backdrop-filter: blur(5px); /* Blur effect */
+  z-index: 0; /* Place behind the popup */
+}
+
+/* .resultsTable tr td:first-child,
+.resultsHead tr th:first-child {
+  @apply text-white;
+} */
+/* .resultsTable tr td:nth-child(2),
+.resultsHead tr th:nth-child(2) {
+  @apply w-1/6;
+}
+.resultsTable tr td:nth-child(3),
+.resultsHead tr th:nth-child(3) {
+  @apply w-1/6;
+} */
+
+/* .results table td button {
+  @apply rounded-full w-5 h-5;
+} */
+
+.results table {
+  @apply border-collapse  w-[70vw] md:w-[40vw];
+}
+.results .Table {
+  @apply mt-2;
+}
+
+.left-align {
+  text-align: left;
+}
+
+.results table {
+  @apply text-sm;
+}
+.resultsTable tr td:first-child,
+.resultsHead tr th:first-child {
+  @apply items-center flex  justify-start ps-4 gap-x-2;
+}
+
+.results .Table th {
+  @apply text-nowrap  text-blue-400  font-normal bg-admindark;
+}
+.results .Table td {
+  @apply text-nowrap px-1 text-left h-11  text-white bg-adminlightdark;
+}
+
+@media (max-width: 500px) {
+  .results table {
+    @apply w-[95vw] border-collapse;
+  }
+  .results .Table th {
+    @apply text-nowrap;
+  }
+
+  .results select {
+    @apply w-28 rounded-sm;
+  }
+
+  .results .Table td {
+    @apply text-nowrap     text-white text-xs;
+  }
+  /* .results .Table tr {
+    @apply h-96;
+  } */
+}

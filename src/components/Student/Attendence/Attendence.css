@@ -1,0 +1,177 @@
+.studentAttendence .nav {
+  @apply flex flex-row justify-around w-[100%];
+}
+
+.studentAttendence .attendencedatestatus {
+  @apply flex flex-row text-white bg-studentattendenceblue1 w-full ms-1;
+}
+
+.studentAttendence .datewise {
+  @apply p-2 flex items-center  flex-col;
+}
+
+.studentAttendence .datewise input {
+  @apply text-black  text-center w-48 ms-3 mt-2 rounded-sm;
+}
+
+.studentAttendence select {
+  @apply text-black rounded-sm;
+}
+.studentAttendence .monthwise {
+  @apply bg-studentmonthpurple w-[30%] me-1 text-white justify-center items-center flex flex-col p-1;
+}
+
+.attendencedatestatus .status {
+  @apply flex flex-col justify-center items-start ps-20  w-full;
+}
+
+.studentAttendence .status div {
+  @apply flex flex-row gap-x-2  items-center;
+}
+.studentAttendence .statusbar {
+  @apply w-16 h-5 my-1;
+}
+
+/*
+Datewise table
+*/
+
+.datewisepage {
+  @apply bg-studentattendenceblue1 mx-1  flex justify-center;
+}
+.datewisepage .Table {
+  @apply mx-1;
+}
+
+.datewisepage table {
+  @apply md:w-[40vw] sm:w-[90] sm:mx-2 md:mx-0 mt-5;
+}
+
+.datewisepage .Table th {
+  @apply text-nowrap  px-4 font-normal sm:text-sm md:text-base  text-white  bg-studentdark;
+}
+.datewisepage .Table td {
+  @apply text-nowrap p-2 px-4 text-center text-xs   text-white bg-studentblue2;
+}
+
+/* monthwise */
+.monthwisepage {
+  @apply bg-studentmonthpurple  pt-5  mx-1 mb-1;
+}
+.monthwisepage .Table {
+  @apply flex  flex-col items-center mt-1;
+}
+.monthwisepage .Table table {
+  @apply mt-2;
+}
+
+.monthwisepage table {
+  @apply w-[70vw] md:w-[40vw] border-collapse;
+}
+.monthwisepage .Table th {
+  @apply text-nowrap  text-center  font-normal overflow-hidden bg-studentmonthblue text-sm  text-blue-400;
+}
+
+.monthwisepage .Table td {
+  @apply text-nowrap p-1 text-center text-sm overflow-hidden    text-white bg-studentmonthgray;
+}
+
+.datewisepage .scroll-table tr {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 800px) {
+  .datewisepage .table-container {
+    width: 100%;
+
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+
+  .datewisepage .scroll-table {
+    border-collapse: collapse;
+    width: max-content;
+  }
+
+  .datewisepage .scroll-table th,
+  .datewisepage .scroll-table td {
+    padding: 8px;
+  }
+}
+
+@media (max-width: 500px) {
+  .studentAttendence .datewise {
+    @apply text-sm flex flex-col;
+  }
+
+  .studentAttendence .monthwise {
+    @apply text-xs;
+  }
+
+  .attendencedatestatus .status {
+    @apply flex flex-col ps-0 justify-center items-start    w-full;
+  }
+
+  .studentAttendence select {
+    @apply text-xs;
+  }
+
+  .studentAttendence .datewise input {
+    @apply text-black text-center w-32 rounded-sm;
+  }
+
+  .studentAttendence .statusbar {
+    @apply w-4 h-4 my-1;
+  }
+
+  .studentAttendence .selectmonth {
+    @apply text-xs;
+  }
+
+  /* .studentAttendence .status {
+    @apply bg-darkblue;
+  } */
+
+  /* datewise */
+  .datewisepage table {
+    @apply mx-1 w-[95vw];
+  }
+  /* .datewisepage .Table {
+    @apply flex justify-center;
+  } */
+
+  .datewisepage .Table th {
+    @apply text-nowrap text-[8px] text-center    text-white;
+  }
+
+  .datewisepage .Table td {
+    @apply text-nowrap p-1 text-center ms-1 text-[8px];
+  }
+
+  .datewisepage .table-container {
+    width: 100%;
+
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+
+  .datewisepage .scroll-table {
+    border-collapse: collapse;
+    width: max-content; /* Set the table width to the width of its content */
+  }
+
+  .datewisepage .scroll-table th,
+  .datewisepage .scroll-table td {
+    padding: 8px;
+  }
+
+  /* monthwise */
+  .monthwisepage table {
+    @apply w-[95vw] border-collapse;
+  }
+  .monthwisepage .Table th {
+    @apply text-nowrap  text-center  font-normal overflow-hidden bg-studentmonthblue text-xs  text-blue-400;
+  }
+
+  .monthwisepage .Table td {
+    @apply text-nowrap p-1 text-center text-xs overflow-hidden;
+  }
+}

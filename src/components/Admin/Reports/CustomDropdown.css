@@ -1,0 +1,71 @@
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-header {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  /* min-width: 120px;  */
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+input[list]::-webkit-calendar-picker-indicator {
+  display: inline;
+}
+
+.dropdown-options.open-up {
+  top: auto;
+  bottom: 100%;
+  border-radius: 5px 5px 0 0;
+}
+
+.dropdown-header:hover {
+  background-color: #f0f0f0;
+}
+
+.arrow {
+  position: absolute;
+  /* // top: 50%; 
+  // right: 10px;  */
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
+}
+
+.arrow.open {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.dropdown-options {
+  position: absolute;
+  top: 100%;
+  /* // left: 0;  */
+  right: 0;
+  min-width: 120px;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  background-color: #fff;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  cursor: pointer;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.option:last-child {
+  border-bottom: none;
+}
+
+.option:hover {
+  background-color: #f0f0f0;
+}

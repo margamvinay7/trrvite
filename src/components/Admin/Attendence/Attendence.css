@@ -1,0 +1,98 @@
+/* .container {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  width: 80lvw;
+} */
+
+.containerattendence > .input {
+  @apply flex flex-row gap-x-1;
+}
+
+.attendence select {
+  @apply min-w-36 text-center rounded-sm;
+}
+
+.attendence input {
+  @apply rounded-sm text-center px-2;
+}
+
+.attendence table {
+  @apply border-collapse  w-[70vw];
+}
+.attendence .Table {
+  @apply mt-5;
+}
+
+.attendence .Table th {
+  @apply text-nowrap p-1 font-normal  text-white text-base bg-adminattendence1;
+}
+
+.attendence table tr {
+  border: 1px solid rgba(0, 0, 0, 0.221);
+}
+
+.attendence table {
+  @apply mx-2;
+}
+
+/* .Table tr {
+  margin-bottom: 10px;
+}
+
+.Table {
+  border-collapse: separate;
+  border-spacing: 0 10px;
+} */
+
+/* .attendence .Table  tr {
+  @apply mb-1;
+} */
+.attendence .Table td {
+  @apply text-nowrap p-2 text-center  text-base  text-white bg-adminAttendence2;
+}
+
+@media (max-width: 500px) {
+  .attendence table {
+    @apply border-collapse  w-[95vw];
+  }
+  .attendence select {
+    @apply min-w-24  text-center rounded-sm;
+  }
+  .containerattendence > .input {
+    @apply flex flex-row gap-x-1;
+  }
+  .attendence .custom-nav button {
+    @apply bg-blue-700 text-nowrap  py-2 px-0 text-center w-full overflow-hidden text-xs;
+  }
+
+  .attendence .Table th {
+    @apply text-nowrap  text-[0.75rem] text-center bg-adminattendence1;
+  }
+
+  .attendence .table-container {
+    width: 100%;
+
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+
+  .attendence .scroll-table {
+    border-collapse: collapse;
+    width: max-content; /* Set the table width to the width of its content */
+  }
+
+  .attendence .scroll-table th,
+  .attendence .scroll-table td {
+    padding: 8px;
+  }
+
+  .attendence .Table {
+    @apply mt-5;
+  }
+
+  .attendence .Table td {
+    @apply text-nowrap p-1 text-center text-[0.75rem]   text-white bg-adminAttendence2;
+  }
+}

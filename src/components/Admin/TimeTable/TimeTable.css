@@ -1,0 +1,146 @@
+.timetable .actions {
+  @apply flex flex-row gap-x-2;
+}
+
+.timetable table {
+  @apply border-collapse md:w-[70vw] sm:w-[80vw];
+}
+
+.timetable .input button {
+  @apply bg-yellow-400 hover:bg-yellow-500 active:outline active:outline-yellow-600 px-2 w-36 rounded-sm;
+}
+
+.timetable .popup-container {
+  position: relative; /* Needed for background blur */
+}
+
+.timetable .popup {
+  position: fixed; /* Keep popup above other elements */
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 250px;
+  border-radius: 20px;
+  transform: translate(-50%, -50%); /* Center the popup */
+  background-color: white;
+  padding: 30px;
+
+  z-index: 1; /* Ensure popup is above other content */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); Optional subtle shadow */
+}
+
+.timetable .popup-overlay {
+  /* Style for background blur (adjust properties as needed) */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+  backdrop-filter: blur(5px); /* Blur effect */
+  z-index: 0; /* Place behind the popup */
+}
+
+.timetable .Table {
+  @apply mt-5;
+}
+
+.timetable .Table th {
+  @apply text-nowrap font-normal text-center p-1 text-white  bg-admintimedark;
+}
+.timetable .Table td {
+  @apply text-nowrap  text-center p-2 text-xs  text-black bg-gray-200;
+}
+
+.timetable .actions button {
+  @apply bg-blue-300 hover:bg-blue-400 active:outline active:outline-blue-500  px-3 mt-5 w-20 rounded-sm;
+}
+.timetable > .input {
+  @apply flex flex-row gap-x-1;
+}
+.timetable select {
+  @apply w-24 text-center rounded-sm;
+}
+
+.timetable tr td:first-child {
+  @apply bg-admintimeblue text-white;
+}
+
+.timetable .scroll-table tr {
+  border: 1px solid #997979;
+}
+
+@media (max-width: 500px) {
+  .timetable .Table {
+    @apply mt-5;
+  }
+  .timetable .Table th {
+    @apply text-nowrap text-[9px] text-center;
+  }
+
+  .timetable table {
+    @apply border-collapse mx-2  w-[95vw];
+  }
+
+  .timetable select {
+    @apply w-20 rounded-sm;
+  }
+
+  .timetable .input button {
+    @apply px-2 w-32;
+  }
+
+  .timetable .Table td {
+    @apply text-nowrap p-1 text-center text-[9px];
+  }
+
+  .table-container {
+    width: 100%;
+
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+  .ti {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+
+  .timetable .scroll-table {
+    border-collapse: collapse;
+    width: max-content; /* Set the table width to the width of its content */
+  }
+
+  .timetable .scroll-table th,
+  .timetable .scroll-table td {
+    padding: 8px;
+  }
+
+  /* .scroll-table th {
+    background-color: #f2f2f2;
+  } */
+}
+
+@media (max-width: 800px) {
+  .table-container {
+    width: 100%;
+
+    overflow-x: auto; /* Enable horizontal scroll */
+  }
+
+  .timetable table {
+    @apply border-collapse mx-2;
+  }
+
+  .timetable .scroll-table {
+    border-collapse: collapse;
+    width: max-content; /* Set the table width to the width of its content */
+  }
+
+  .timetable .scroll-table th,
+  .timetable .scroll-table td {
+    padding: 8px;
+  }
+}

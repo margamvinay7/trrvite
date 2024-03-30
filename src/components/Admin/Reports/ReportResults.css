@@ -1,0 +1,105 @@
+/* .ReportResults .actions {
+  @apply flex flex-row gap-x-2;
+} */
+
+.ReportResults table {
+  @apply border-collapse md:w-[70vw] sm:w-[80vw] mx-2;
+}
+
+.ReportResults .input button {
+  @apply bg-customyellow hover:bg-yellow-400 active:outline active:outline-yellow-500 py-1  px-2 w-20 rounded-sm;
+}
+
+.ReportResults .Table {
+  @apply mt-5;
+}
+
+.ReportResults .Table th {
+  @apply text-nowrap  text-left font-normal ps-4 text-blue-300  bg-adminprofileblue;
+}
+.ReportResults .Table td {
+  @apply text-nowrap  text-left p-1 ps-4  font-normal  text-black bg-adminprofileblue1;
+}
+
+.ReportResults table tr {
+  border: 1px solid #449969;
+}
+
+/* .ReportResults .actions button {
+      @apply bg-adminprofileblue1  px-3 mt-5 w-20 rounded-sm;
+    } */
+.ReportResults > .input {
+  @apply flex flex-row gap-x-1;
+}
+.ReportResults select {
+  @apply w-24 rounded-sm;
+}
+
+.ReportResults .pop button {
+  @apply text-sm text-black w-20 h-8 p-1  rounded-sm;
+}
+
+/* .delete-button {
+      background-color: #f00; 
+      color: white;
+      border: none;
+      padding: 5px 10px;
+    } */
+
+@media (max-width: 800px) {
+  .ReportResults .table-container {
+    width: 100%;
+
+    overflow-x: auto;
+  }
+
+  .ReportResults .scroll-table {
+    border-collapse: collapse;
+    width: max-content;
+  }
+
+  .ReportResults .scroll-table th,
+  .ReportResults .scroll-table td {
+    padding: 4px;
+  }
+}
+
+@media (max-width: 550px) {
+  .ReportResults .Table {
+    @apply mt-5;
+  }
+  .ReportResults .Table th {
+    @apply text-nowrap font-normal text-[9px] ps-2;
+  }
+
+  .ReportResults table {
+    @apply border-collapse w-[95vw]  mx-1;
+  }
+
+  .ReportResults .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ReportResults .scroll-table {
+    border-collapse: collapse;
+    width: max-content;
+  }
+
+  .ReportResults .scroll-table th,
+  .ReportResults .scroll-table td {
+    padding: 4px;
+  }
+
+  .ReportResults select {
+    @apply w-24 text-center rounded-sm;
+  }
+
+  .ReportResults .input button {
+    @apply bg-adminyellow px-2 w-20;
+  }
+
+  .ReportResults .Table td {
+    @apply text-nowrap ps-2 font-normal  text-[9px];
+  }
+}

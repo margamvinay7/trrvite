@@ -1,0 +1,41 @@
+.sProfile .results {
+  @apply flex  flex-col items-center mt-5;
+}
+.sProfile .results table {
+  @apply mt-2;
+}
+
+.sProfile table {
+  @apply w-[70vw] md:w-[40vw] border-collapse;
+}
+.sProfile .results th {
+  @apply text-nowrap  text-left font-normal ps-4 text-blue-300  bg-adminprofileblue;
+}
+
+.sProfile .results td {
+  @apply text-nowrap  text-left p-1 ps-4  font-normal  text-black bg-adminprofileblue1;
+}
+
+.sProfile table tr {
+  border: 1px solid #449969;
+}
+
+@media (max-width: 500px) {
+  .sProfile table {
+    @apply w-[95vw] border-collapse;
+  }
+  .sProfile .results th {
+    @apply text-nowrap  text-center overflow-hidden text-sm;
+  }
+
+  .sProfile .exam {
+    @apply ms-5 flex;
+  }
+
+  .sProfile .exam select {
+    @apply rounded-sm w-48 text-center p-1;
+  }
+  .sProfile .results td {
+    @apply text-nowrap p-1 text-center overflow-hidden;
+  }
+}

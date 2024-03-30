@@ -1,0 +1,104 @@
+/* .ReportAttendance .actions {
+  @apply flex flex-row gap-x-2;
+} */
+
+.ReportAttendance table {
+  @apply border-collapse md:w-[70vw] sm:w-[80vw] mx-2;
+}
+
+.ReportAttendance .input button {
+  @apply bg-customyellow hover:bg-yellow-400 active:outline active:outline-yellow-500 py-1  px-2 w-20 rounded-sm;
+}
+
+.ReportAttendance .Table {
+  @apply mt-5;
+}
+
+.ReportAttendance .Table th {
+  @apply text-nowrap  text-left font-normal ps-4 text-blue-300  bg-adminprofileblue;
+}
+.ReportAttendance .Table td {
+  @apply text-nowrap  text-left p-1 ps-4  font-normal  text-black bg-adminprofileblue1;
+}
+
+.ReportAttendance table tr {
+  border: 1px solid #449969;
+}
+
+/* .ReportAttendance .actions button {
+    @apply bg-adminprofileblue1  px-3 mt-5 w-20 rounded-sm;
+  } */
+.ReportAttendance > .input {
+  @apply flex flex-row gap-x-1;
+}
+.ReportAttendance select {
+  @apply w-24 rounded-sm;
+}
+
+.ReportAttendance .pop button {
+  @apply text-sm text-black w-20 h-8 p-1  rounded-sm;
+}
+
+/* .delete-button {
+    background-color: #f00; 
+    color: white;
+    border: none;
+    padding: 5px 10px;
+  } */
+
+@media (max-width: 800px) {
+  .ReportAttendance .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ReportAttendance .scroll-table {
+    border-collapse: collapse;
+    width: max-content;
+  }
+
+  .ReportAttendance .scroll-table th,
+  .ReportAttendance .scroll-table td {
+    padding: 4px;
+  }
+}
+
+@media (max-width: 550px) {
+  .ReportAttendance .Table {
+    @apply mt-5;
+  }
+  .ReportAttendance .Table th {
+    @apply text-nowrap font-normal text-[9px] ps-2;
+  }
+
+  .ReportAttendance table {
+    @apply border-collapse w-[95vw]  mx-1;
+  }
+
+  .ReportAttendance .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .ReportAttendance .scroll-table {
+    border-collapse: collapse;
+    width: max-content;
+  }
+
+  .ReportAttendance .scroll-table th,
+  .ReportAttendance .scroll-table td {
+    padding: 4px;
+  }
+
+  .ReportAttendance select {
+    @apply w-24 text-center rounded-sm;
+  }
+
+  .ReportAttendance .input button {
+    @apply bg-adminyellow px-2 w-20;
+  }
+
+  .ReportAttendance .Table td {
+    @apply text-nowrap ps-2 font-normal  text-[9px];
+  }
+}

@@ -1,0 +1,51 @@
+.studentResults {
+  @apply bg-studentresult  pt-5  mx-1 mb-1;
+}
+
+.studentResults .exam {
+  @apply ms-10 flex gap-x-1;
+}
+.studentResults .exam h4 {
+  @apply text-white mb-1;
+}
+.studentResults .exam select {
+  @apply rounded-sm w-52 p-1;
+}
+
+.studentResults .Table {
+  @apply flex  flex-col items-center mt-5;
+}
+.studentResults .Table table {
+  @apply mt-2;
+}
+
+.studentResults table {
+  @apply w-[70vw] md:w-[40vw] border-collapse;
+}
+.studentResults .Table th {
+  @apply text-nowrap font-normal  text-center overflow-hidden text-sm  bg-studentdark text-blue-400;
+}
+
+.studentResults .Table td {
+  @apply text-nowrap p-1 text-center overflow-hidden text-sm    text-white bg-studendtresultlight;
+}
+
+@media (max-width: 500px) {
+  .studentResults table {
+    @apply w-[95vw] border-collapse;
+  }
+  .studentResults .Table th {
+    @apply text-nowrap  text-center overflow-hidden text-xs;
+  }
+
+  .studentResults .exam {
+    @apply ms-5 flex;
+  }
+
+  .studentResults .exam select {
+    @apply rounded-sm w-48 text-center p-1;
+  }
+  .studentResults .Table td {
+    @apply text-nowrap p-1 text-xs text-center overflow-hidden;
+  }
+}

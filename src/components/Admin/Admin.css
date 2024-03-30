@@ -1,0 +1,20 @@
+.Admin .custom-heading {
+  @apply text-white w-full text-[1.2rem] bg-adminlogin h-16 flex justify-center items-center  mb-10;
+}
+
+.Admin .custom-nav {
+  @apply flex justify-evenly gap-x-1 mx-1;
+}
+
+.Admin .custom-nav button {
+  @apply mb-1 bg-adminAttendence2 p-1 text-nowrap text-[1rem]  text-white w-full;
+}
+.Admin .custom-nav .not-active {
+  @apply m-1 bg-blue-600 p-2 w-full;
+}
+
+@media (max-width: 550px) {
+  .Admin .custom-nav button {
+    @apply bg-adminAttendence text-nowrap  py-2 px-0 text-center w-full overflow-hidden text-xs;
+  }
+}
