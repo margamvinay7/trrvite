@@ -16,7 +16,7 @@ const Profile = () => {
     const response = await API.get(
       `/result/getResultByYearsAndAcademicYearAndStudentId?studentId=${student.id}&assessment=${assessment}`
     );
-    console.log("results", response?.data);
+
     setResults(response?.data);
 
     const set = response?.data?.forEach((item) => {
@@ -30,7 +30,7 @@ const Profile = () => {
     const response = await API.get(
       `/attendance/getTotalAttendance?id=${student.id}`
     );
-    console.log("tot", response);
+
     const filterData = response?.data.filter((item) => {
       return item.totalSubjectsCount !== 0;
     });
@@ -59,62 +59,56 @@ const Profile = () => {
 
   const sortedResults = results.sort(customSort);
   const sortedAttendance = attendence.sort(customSort);
-  console.log("values", Number((0 / 0) * 100).toFixed(2));
 
   useEffect(() => {
-    // if (student.id) {
-    //   console.log("studentid", student.id);
-    //   getResultStatus();
-    //   getAttendence();
-    // }
     getAttendence();
     getResultStatus();
   }, [student]);
 
   return (
     <div
-      className="min-h-[calc(100vh-248px)] pb-20 bg-adminprofile sProfile flex flex-col pt-16
+      className="min-h-[calc(100vh-232px)] pb-20 bg-adminprofile sProfile flex flex-col pt-16
         text-black"
     >
       <div className="  flex flex-col ps-10 sm:ps-20 md:ps-40">
-        <div>
+        <div className="text-sm">
           Full Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;
           {student?.fullName}
         </div>
-        <div>
+        <div className="text-sm">
           Roll
           No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
           &nbsp;
           {student?.id}
         </div>
-        <div>
+        <div className="text-sm">
           Year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           : &nbsp;{student?.year}
         </div>
-        <div>
+        <div className="text-sm">
           Joining Year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;
           {student?.joiningyear}
         </div>
-        <div>
+        <div className="text-sm">
           Acad. Year &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;
           {student?.academicyear}
         </div>
-        <div>
+        <div className="text-sm">
           Gender&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
           &nbsp;
           {student?.gender}
         </div>
-        <div>
+        <div className="text-sm">
           Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
           &nbsp;
           {student?.email}
         </div>
-        <div>
+        <div className="text-sm">
           Mobile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
           &nbsp;
           {student?.mobile}
         </div>
-        <div>
+        <div className="text-sm">
           Address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
           &nbsp;
           {student?.address}

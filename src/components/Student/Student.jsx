@@ -23,13 +23,13 @@ const Student = () => {
   const year = useSelector((state) => state.studentReducer.year);
   const navbar = useSelector((state) => state.studentReducer.navbar);
   const username = useSelector((state) => state.studentReducer.username);
-  console.log("year is ", year, navbar);
+
   const token = sessionStorage.getItem("token");
-  console.log("token", token);
+
   let user1;
   if (token) {
     const decoded = jwtDecode(token);
-    console.log(decoded);
+
     const { user, roles } = decoded.UserInfo;
     user1 = user;
     const role = roles;
@@ -42,30 +42,22 @@ const Student = () => {
   const getStudent = async () => {
     await API.get(`/student/getStudentById?id=${username}`).then((res) => {
       dispatch(studentActions.details(res?.data));
-      console.log(res);
+
       setStudent(res?.data);
     });
 
     try {
       const resimgae = await API.get(`student/fetchImageData?id=${username}`);
-      // const blob = resimgae?.data?.blob();
-      console.log(resimgae);
-      // // Create a Blob URL for the image
-      // const imageUrl = URL.createObjectURL(blob);
+
       setImageSrc(resimgae?.data.trim());
-      console.log("imag", resimgae?.data.trim());
-    } catch (error) {
-      console.error("Error fetching image:", error);
-    }
+    } catch (error) {}
   };
   dispatch(studentActions.navbar(path));
   const handleYears = (e) => {
-    console.log(e.target.id);
     dispatch(studentActions.year(e.target.id));
   };
 
   const handleNavbar = (e) => {
-    console.log("in navbar", e.target.id);
     dispatch(studentActions.navbar(path));
   };
   useEffect(() => {
@@ -78,32 +70,34 @@ const Student = () => {
       <div className="custom-heading">
         <h1>Student Info</h1>
       </div>
-      <div>
+      <div className="image">
         <img
-          className="image"
           src={
             imageSrc !== "imagenotfound"
               ? `data:image/jpg;charset=utf8;base64,${imageSrc}`
               : profile
           }
+          style={{ width: "100%", height: "100%" }}
         />
       </div>
 
       <div className=" bg-studentgray">
         <div className="info">
-          <div>
+          <div className=" text-sm">
             Full Name&nbsp;&nbsp;&nbsp; : &nbsp;
             <span className="text-nowrap">{student?.fullName}</span>
           </div>
-          <div>
+          <div className=" text-sm">
             Roll No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;
             {student?.id}
           </div>
-          <div>
+          <div className=" text-sm">
             Year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             : &nbsp;{student?.year}
           </div>
-          <div>Acad. Year&nbsp;&nbsp; : &nbsp;{student?.academicyear}</div>
+          <div className=" text-sm">
+            Acad. Year&nbsp;&nbsp; : &nbsp;{student?.academicyear}
+          </div>
         </div>
       </div>
       <div className="years" onClick={(e) => handleYears(e)}>
@@ -159,8 +153,6 @@ const Student = () => {
                 }
               : {}
           }
-
-          // style={{ marginBottom: 0 }}
         >
           <Link to="/student/attendance" id="">
             Attendance

@@ -16,7 +16,6 @@ import * as XLSX from "xlsx";
 
 const Pdf = ({ tableData, category }) => {
   const downloadPDF = () => {
-    console.log("in pdf fn");
     const doc = new jsPDF();
     // doc.text("Student Information", 10, 10);
 
@@ -178,7 +177,6 @@ const TableToExcel = ({ tableData, category }) => {
 
 const Print = ({ tableData, category }) => {
   const printPDF = () => {
-    console.log("in print");
     const doc = new jsPDF();
     doc.autoTable({
       head: [
@@ -267,8 +265,6 @@ const ReportAttendance = ({ academicyear, year }) => {
       `/student/getStudentByYearAndAcademicYear?year=${passedYear}&academicyear=${passedAcademicyear}`
     );
 
-    console.log("res", response?.data);
-
     setStudents(response?.data);
     setSearchList(response?.data);
   };
@@ -277,16 +273,12 @@ const ReportAttendance = ({ academicyear, year }) => {
       `/attendance/getAttendanceForReportsByMonth?year=${yeardate}&academicyear=${passedAcademicyear}&mbbsyear=${passedYear}&month=${monthdate}`
     );
 
-    console.log("res", response?.data);
-
     if (type == "All") {
-      console.log("all");
       setStudents(response?.data?.studentAttendanceData);
       setSearchList(response?.data?.studentAttendanceData);
     }
 
     if (type == "Above or Equal") {
-      console.log("Above or Equal");
       let studentData;
       if (category == "Theory") {
         studentData = response?.data.studentAttendanceData.filter((student) => {
@@ -315,13 +307,12 @@ const ReportAttendance = ({ academicyear, year }) => {
           }
         });
       }
-      console.log("typed above or equal", studentData);
+
       setStudents(studentData);
       setSearchList(studentData);
     }
 
     if (type == "Below") {
-      console.log("Below");
       let studentData;
       if (category == "Theory") {
         studentData = response?.data.studentAttendanceData.filter((student) => {
@@ -350,7 +341,7 @@ const ReportAttendance = ({ academicyear, year }) => {
           }
         });
       }
-      console.log("typed below", studentData);
+
       setStudents(studentData);
       setSearchList(studentData);
     }
@@ -360,15 +351,12 @@ const ReportAttendance = ({ academicyear, year }) => {
       `/attendance/getAttendanceForReportsByMbbsYear?academicyear=${passedAcademicyear}&mbbsyear=${passedYear}`
     );
 
-    console.log("res", response?.data);
     if (type == "All") {
-      console.log("all");
       setStudents(response?.data?.studentAttendanceData);
       setSearchList(response?.data?.studentAttendanceData);
     }
 
     if (type == "Above or Equal") {
-      console.log("Above or Equal");
       let studentData;
       if (category == "Theory") {
         studentData = response?.data.studentAttendanceData.filter((student) => {
@@ -397,13 +385,12 @@ const ReportAttendance = ({ academicyear, year }) => {
           }
         });
       }
-      console.log("typed above or equal", studentData);
+
       setStudents(studentData);
       setSearchList(studentData);
     }
 
     if (type == "Below") {
-      console.log("Below");
       let studentData;
       if (category == "Theory") {
         studentData = response?.data.studentAttendanceData.filter((student) => {
@@ -432,14 +419,13 @@ const ReportAttendance = ({ academicyear, year }) => {
           }
         });
       }
-      console.log("typed below", studentData);
+
       setStudents(studentData);
       setSearchList(studentData);
     }
   };
 
   const handleSearch = (e) => {
-    console.log("search", e?.target?.value);
     const serachResults = students.filter((item) => {
       return (
         item?.id?.includes(e?.target?.value) ||
@@ -462,9 +448,6 @@ const ReportAttendance = ({ academicyear, year }) => {
 
   useEffect(() => {
     if (passedAcademicyear && passedYear && wise && category && type) {
-      console.log("month", month);
-      console.log("year and academicyear", passedAcademicyear, passedYear);
-
       if (wise == "Month Wise") {
         getStudentAttendanceByMonth(month?.split("-")[0], month?.split("-")[1]);
       }

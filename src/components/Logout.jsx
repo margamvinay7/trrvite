@@ -8,9 +8,8 @@ const Logout = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.studentReducer.roles);
   const css =
-    user == "admin" ? "min-h-[calc(100vh-140px)]" : "min-h-[calc(100vh-248px)]";
+    user == "admin" ? "min-h-[calc(100vh-140px)]" : "min-h-[calc(100vh-232px)]";
   const handleLogout = () => {
-    console.log("out");
     sessionStorage.removeItem("token");
     dispatch(studentActions.author(""));
 

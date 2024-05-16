@@ -6,6 +6,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { API } from "../../Student/Student";
 import toast, { Toaster } from "react-hot-toast";
+import Notification from "../../Notification";
 
 const dayOrderMap = {
   MONDAY: 1,
@@ -17,7 +18,6 @@ const dayOrderMap = {
 };
 
 const Periods = ({ periods }) => {
-  // console.log("periods from parent", periods);
   return (
     <>
       {periods?.map((period) => (
@@ -28,6 +28,14 @@ const Periods = ({ periods }) => {
 };
 
 const TimeTable = () => {
+  const [periodsArray, setPeriodsArray] = useState([
+    "9am-10am",
+    "10am-11am",
+    "11am-12pm",
+    "12pm-1pm",
+    "2pm-3pm",
+    "3pm-4pm",
+  ]);
   const navigate = useNavigate();
   const username = useSelector((state) => state.studentReducer.username);
   const [yearValue, setYearValue] = useState([]);
@@ -39,10 +47,7 @@ const TimeTable = () => {
   const [acad, setAcad] = useState("");
   const [id, setId] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-
-  ///select/getTimetableYearAndAcademicyear
-
-  //http://localhost:5000/select/getTimetableBYyearAndAcademicyear/MBBS-I/2024-2025
+  const [notification, setNotification] = useState({ message: "", type: "" });
 
   const handleYearChange = async (e) => {
     setSelectYear(e.target.value);
@@ -57,8 +62,10 @@ const TimeTable = () => {
       );
       setTimetable(response?.data?.Days);
       setId(response?.data?.id);
-      console.log("res", response?.data?.Days);
-      console.log(e.target.value);
+      const periodsArrayData = response?.data?.Days[0]?.Periods.map(
+        (period) => period.time
+      );
+      setPeriodsArray(periodsArrayData || periodsArray);
     }
   };
 
@@ -74,7 +81,10 @@ const TimeTable = () => {
       );
       setId(response?.data?.id);
       setTimetable(response?.data?.Days);
-      console.log("res", response?.data?.Days);
+      const periodsArrayData = response?.data?.Days[0]?.Periods.map(
+        (period) => period.time
+      );
+      setPeriodsArray(periodsArrayData || periodsArray);
     }
   };
 
@@ -84,10 +94,6 @@ const TimeTable = () => {
     );
     setYearValue(response?.data?.years);
     setAcademicYearValue(response?.data?.academicyears);
-    // setSelectAcademic(response?.data?.academicyears[0]);
-    // setSelectYear(response?.data?.years[0]);
-    console.log("response data", response?.data);
-    console.log("response", response?.data?.years);
   };
 
   const week = [
@@ -137,7 +143,6 @@ const TimeTable = () => {
 
   const handleDelete = async (id) => {
     if (id !== "") {
-      console.log("id", id);
       try {
         const response = await API.post(`/timetable/deleteTimetable`, {
           id: id,
@@ -145,7 +150,17 @@ const TimeTable = () => {
 
         if (response.status == 200) {
           toast.success("Table Deleted successfully");
-          console.log("File uploaded successfully");
+          setNotification({
+            message: "Table Deleted Successfully!",
+            type: "success",
+          });
+          setTimeout(() => {
+            setNotification({
+              message: "",
+              type: "",
+            });
+          }, 3000);
+
           setAcademicYearValue([]);
           setYearValue([]);
           setSelectAcademic(null);
@@ -157,13 +172,21 @@ const TimeTable = () => {
           console.error("Failed to upload file");
         }
       } catch (error) {
+        setNotification({
+          message: "Failed to Delete",
+          type: "error",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
         toast.error("Failed to Delete");
-        console.error("Error:", error);
       }
-      console.log("Item deleted!");
+
       setIsOpen(false);
     } else {
-      console.log("select timetable");
       toast.error("Select Timetable");
       setIsOpen(false);
     }
@@ -180,7 +203,7 @@ const TimeTable = () => {
   return (
     <div className="bg-admintimeorange min-h-[calc(100vh-140px)] timetable  min-w-[80%] flex  mx-1 flex-col items-center pt-7">
       <h1 className="mb-3 font-semibold">Time Table</h1>
-      <Toaster />
+
       <div className="input">
         <select onChange={handleAcademicChange}>
           <option>Select</option>
@@ -205,10 +228,12 @@ const TimeTable = () => {
           <thead>
             <tr>
               <th>Day</th>
-              <th>9am-11am</th>
-              <th>11am-12noon</th>
-              <th>12pm-1pm</th>
-              <th>2pm-4pm</th>
+              <th>{periodsArray[0]}</th>
+              <th>{periodsArray[1]}</th>
+              <th>{periodsArray[2]}</th>
+              <th>{periodsArray[3]}</th>
+              <th>{periodsArray[4]}</th>
+              <th>{periodsArray[5]}</th>
             </tr>
           </thead>
           <tbody>

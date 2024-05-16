@@ -5,47 +5,57 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { API } from "../../Student/Student";
 import { GoArrowLeft } from "react-icons/go";
+import Notification from "../../Notification";
 
 const Edit = () => {
   let { state } = useLocation();
   const id = state.id;
   const navigate = useNavigate();
+  const [notification, setNotification] = useState({ message: "", type: "" });
   const [subjects, setSubjects] = useState([]);
   const [assessment, setAssessment] = useState({});
-  console.log("state", state.id);
+
   const getAssessment = async () => {
     const response = await API.get(`/result/getAssessmentById?id=${state.id}`);
-    // setAssessment(response?.data);
-    // setSubjects(response?.data?.AssessmentSubject);
+
     setSubjects(response?.data);
-    console.log("res edit", response);
   };
 
   const handleSend = async () => {
-    console.log(subjects);
-    // assessment.AssessmentSubject = subjects;
     try {
       let response;
 
       response = await API.post(`/result/updateAssessment?id=${id}`, subjects);
       if (response.status == 200) {
+        setNotification({
+          message: "Assessment Edited!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
+
         toast.success("Assessment Edited");
-        console.log("File uploaded successfully");
+
         getAssessment();
       } else {
-        console.error("Failed to upload file");
       }
     } catch (error) {
+      setNotification({
+        message: "Failed to Edit Assessment",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: "",
+          type: "",
+        });
+      }, 3000);
       toast.error("Failed to upload file");
-      console.error("Error:", error);
     }
-    // const response = await axios
-    // .patch(`/result/updateAssessment/${id}`, {
-    //   AssessmentSubject: subjects,
-    // })
-    //   .then((res) => {
-    //     navigate("/results");
-    //   });
   };
 
   useEffect(() => {
@@ -71,9 +81,9 @@ const Edit = () => {
       >
         <GoArrowLeft style={{ color: "white", height: 30, width: 30 }} />
       </Link>
+      {notification.message && <Notification {...notification} />}
       <div className="text-white mt-1 text-xl">Edit Assessment</div>
       <div className="flex mt-5 flex-col gap-y-1">
-        <Toaster />
         <div className="text-white m text-sm">
           <span className=" font-medium text-yellow-400">Student Name</span>
           &nbsp;&nbsp;: {`${state.name}`}

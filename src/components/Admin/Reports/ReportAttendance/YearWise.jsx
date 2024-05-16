@@ -25,15 +25,11 @@ export const YearWise = ({
       `/student/getStudentByYearAndAcademicYear?year=${passedYear}&academicyear=${passedAcademicyear}`
     );
 
-    console.log("res", response?.data);
-
     setStudents(response?.data);
     setSearchList(response?.data);
   };
 
   const handleSearch = (searchString) => {
-    console.log("ser", searchString == "");
-
     const serachResults = students.filter((item) => {
       return (
         item.id.includes(searchString) ||
@@ -60,7 +56,6 @@ export const YearWise = ({
       setPassedcategory(category);
       setPassedtype(type);
       setPassedsearch(search);
-      console.log("set values", academicyear, year, wise, category, type);
     }
   }, [academicyear, year, wise, category, type, search]);
 
@@ -72,37 +67,12 @@ export const YearWise = ({
       passedcategory &&
       passedtype
     ) {
-      console.log(
-        "year and academicyear",
-        passedAcademicyear,
-        passedYear,
-        passedwise,
-        passedcategory,
-        passedtype
-      );
       getStudent();
     }
   }, [passedAcademicyear, passedYear, passedwise, passedcategory, passedtype]);
   return (
     <div className="bg-adminprofile  ReportProfiles   min-w-[80%] flex pb-20 mx-1 flex-col items-center pt-7">
-      <div className="input">
-        <Toaster />
-        {/* <div className="flex items-center bg-white pe-2 rounded-md">
-          <input
-            className="w-[35vw] rounded-md text-black ps-2 p-1  placeholder-slate-600"
-            onChange={handleSearch}
-            placeholder="Search Student"
-          />
-          <FiSearch
-            style={{
-              color: "black",
-
-              height: 25,
-              width: 25,
-            }}
-          />
-        </div> */}
-      </div>
+      <div className="input"></div>
       <div className="Table table-container ">
         <table className="table-auto scroll-table">
           <thead>

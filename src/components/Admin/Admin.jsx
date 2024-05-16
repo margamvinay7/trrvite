@@ -9,26 +9,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const path = useLocation().pathname;
-  console.log(path);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const navbar = useSelector((state) => state.studentReducer.navbar);
-  // const user = useSelector((state) => state.studentReducer.username);
-  // if (user === "") {
-  //   navigate("/login");
-  // }
-  //   const isActive = useLocation().pathname == path;
 
-  //   const handlePath = (path) => {
-  //     if (isActive == path) {
-  //       return true;
-  //     }
-  //     return false;
-  //   };
   dispatch(studentActions.navbar(path));
-  const handleNavbar = (e) => {
-    // dispatch(studentActions.navbar(path));
-  };
+  const handleNavbar = (e) => {};
   return (
     <div className="Admin">
       <div className="custom-heading">
@@ -37,7 +24,7 @@ const Admin = () => {
       <div className="custom-nav" onClick={(e) => handleNavbar(e)}>
         <button
           style={
-            navbar == "/attendance"
+            navbar == "/attendance" || navbar == "/editattendance"
               ? { backgroundColor: "rgba(18, 51, 77, 1)", marginBottom: 0 }
               : { backgroundColor: "rgba(18, 51, 77, 1)" }
           }
@@ -48,7 +35,10 @@ const Admin = () => {
         </button>
         <button
           style={
-            navbar == "/results" || navbar == "/edit" || navbar == "/list"
+            navbar == "/results" ||
+            navbar == "/edit" ||
+            navbar == "/list" ||
+            navbar == "/promote"
               ? { backgroundColor: "rgba(26, 79, 123, 1)", marginBottom: 0 }
               : { backgroundColor: "rgba(26, 79, 123, 1)" }
           }
@@ -84,9 +74,7 @@ const Admin = () => {
         <button
           style={
             navbar == "/Reports"
-              ? // navbar == "/ReportAttendance" ||
-                // navbar == "/ReportResults"
-                { backgroundColor: "rgba(48, 139, 131, 1)", marginBottom: 0 }
+              ? { backgroundColor: "rgba(48, 139, 131, 1)", marginBottom: 0 }
               : { backgroundColor: "rgba(48, 139, 131, 1)" }
           }
         >

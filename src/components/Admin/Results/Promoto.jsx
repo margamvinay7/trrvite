@@ -5,10 +5,12 @@ import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
 import { Link } from "react-router-dom";
+import Notification from "../../Notification";
 
 const Promoto = () => {
   const navigate = useNavigate();
   const [academicyearValue, setAcademicyearValue] = useState([]);
+  const [notification, setNotification] = useState({ message: "", type: "" });
   const [yearValue, setYearValue] = useState([]);
   const [selectAcademic, setSelectAcademic] = useState("");
   const [selectYear, setSelectYear] = useState("");
@@ -83,8 +85,6 @@ const Promoto = () => {
   };
 
   const handleSubmit = async () => {
-    // promotestudents
-    console.log("values", year, academicyear);
     if (year !== "" && academicyear !== "" && selectedStudents !== null) {
       try {
         // Send updated student data to the server
@@ -93,10 +93,19 @@ const Promoto = () => {
           academicyear: academicyear,
           students: selectedStudents,
         });
+        setNotification({
+          message: "Students Promoted successfully!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
 
-        console.log("re", response);
         toast.success("Students Promoted successfully!");
-        console.log("Student updated successfully!");
+
         setStudents([]);
         setSearchList([]);
         setYear("");
@@ -108,26 +117,60 @@ const Promoto = () => {
         getSelect();
       } catch (error) {
         toast.error("Failed to Promte Students");
-        console.error("Error updating student:", error);
+        setNotification({
+          message: "Failed to Promte Students",
+          type: "error",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
+
         setStudents([]);
         setSearchList([]);
         setYear("");
         setAcademicyear("");
         setSelectedStudents([]);
-        // setTimeout(() => {
-        //   navigate("/results");
-        // }, 1000);
       }
     } else if (year == "") {
+      setNotification({
+        message: "Year Field Is  Required",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: "",
+          type: "",
+        });
+      }, 3000);
       toast.error("Year Field Is  Required");
     } else if (academicyear == "") {
+      setNotification({
+        message: "Academic Field Is Reequired",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: "",
+          type: "",
+        });
+      }, 3000);
       toast.error("Academic Field Is Reequired");
     } else {
+      setNotification({
+        message: "Enter Year and Academicyear Fields",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: "",
+          type: "",
+        });
+      }, 3000);
       toast.error("Enter Year and Academicyear Fields");
     }
-
-    console.log("promote");
-    console.log("submitvalues", year, academicyear);
   };
 
   const getSelect = async () => {
@@ -179,8 +222,8 @@ const Promoto = () => {
       <h1 className="mb-3 text-adminyellow text-lg font-medium">
         Promote students
       </h1>
+      {notification.message && <Notification {...notification} />}
       <div className="input">
-        <Toaster />
         <select onChange={handleAcademicChange}>
           <option>select</option>
           {sortedAcademicYears?.map((academicyear) => (

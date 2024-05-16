@@ -14,7 +14,6 @@ import * as XLSX from "xlsx";
 
 const Pdf = ({ tableData }) => {
   const downloadPDF = () => {
-    console.log("in pdf fn");
     const doc = new jsPDF();
     // doc.text("Student Information", 10, 10);
 
@@ -138,7 +137,6 @@ const TableToExcel = ({ tableData }) => {
 
 const Print = ({ tableData }) => {
   const printPDF = () => {
-    console.log("in print");
     const doc = new jsPDF();
     doc.autoTable({
       head: [
@@ -188,8 +186,6 @@ const ReportProfiles = ({ academicyear, year }) => {
       `/student/getStudentByYearAndAcademicYear?year=${passedYear}&academicyear=${passedAcademicyear}`
     );
 
-    console.log("res", response?.data);
-
     setStudents(response?.data);
     setSearchList(response?.data);
   };
@@ -217,7 +213,6 @@ const ReportProfiles = ({ academicyear, year }) => {
 
   useEffect(() => {
     if (passedAcademicyear && passedYear) {
-      console.log("year and academicyear", passedAcademicyear, passedYear);
       getStudent();
     }
   }, [passedAcademicyear, passedYear]);
@@ -225,7 +220,6 @@ const ReportProfiles = ({ academicyear, year }) => {
     <div className="bg-adminprofile  ReportProfiles   min-w-[80%] flex  mx-1 flex-col items-center pt-7">
       <h1 className="mb-3 font-medium ">Student Profiles</h1>
       <div className="input">
-        <Toaster />
         <div className="flex items-center bg-white pe-2 rounded-md">
           <input
             className="w-[35vw] rounded-md text-black ps-2 p-1  placeholder-slate-600"

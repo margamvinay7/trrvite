@@ -39,14 +39,13 @@ function App() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.studentReducer.roles);
   // const user = "student";
-  console.log("user", user);
 
   const token = sessionStorage.getItem("token");
-  console.log("token", token);
+
   let user1;
   if (token) {
     const decoded = jwtDecode(token);
-    console.log(decoded);
+
     const { user, roles } = decoded.UserInfo;
     user1 = user;
     const role = roles;

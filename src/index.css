@@ -20,3 +20,39 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.notification-container {
+  position: relative; /* Needed for background blur */
+}
+
+.notification {
+  position: fixed; /* Keep notification above other elements */
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 180px;
+  border-radius: 20px;
+  transform: translate(-50%, -50%); /* Center the notification */
+  background-color: white;
+  padding: 30px;
+
+  z-index: 1; /* Ensure notification is above other content */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); Optional subtle shadow */
+}
+
+.notification-overlay {
+  /* Style for background blur (adjust properties as needed) */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+  backdrop-filter: blur(5px); /* Blur effect */
+  z-index: 0; /* Place behind the notification */
+}
+
+.notification button {
+  @apply text-sm text-black w-20 h-8 p-1  rounded-sm;
+}

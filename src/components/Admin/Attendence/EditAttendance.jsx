@@ -3,23 +3,47 @@ import "../Attendence/Attendence.css";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { API } from "../../Student/Student";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { GoArrowLeft } from "react-icons/go";
+import Notification from "../../Notification";
 
-///select/getTimetableYear
 const EditAttendance = () => {
   const navigate = useNavigate();
+  const [notification, setNotification] = useState({ message: "", type: "" });
+  const [popup, setPopup] = useState(false);
+  const location = useLocation();
+  const { yearEdit, academicyearEdit, dateEdit, periodEdit } = location.state;
+
+  const [datevalue, setDateValue] = useState(
+    `${new Date(dateEdit).getDate()}/${
+      new Date(dateEdit).getMonth() + 1
+    }/${new Date(dateEdit).getFullYear()}`
+  );
+  // console.log(
+  //   "datevalue",
+  //   datevalue?.getDate(),
+  //   datevalue?.getMonth(),
+  //   datevalue?.getFullYear()
+  // );
+  console.log(datevalue);
+  const [periodsArray, setPeriodsArray] = useState([
+    "9am-10am",
+    "10am-11am",
+    "11am-12pm",
+    "12pm-1pm",
+    "2pm-3pm",
+    "3pm-4pm",
+  ]);
   const [selectYear, setSelectYear] = useState("");
   const [yearValue, setYearValue] = useState([]);
-  // const [students, setStudents] = useState([]);
-  // const [timetable, setTimetable] = useState([]);
-  const [date, setDate] = useState(new Date());
+
+  const [date, setDate] = useState();
   const [periods, setPeriods] = useState([]);
   const [year, setYear] = useState("");
   const [day, setDay] = useState(new Date().getDay());
   const [academicyear, setAcademicyear] = useState("");
   const [academicyearValue, setAcademicYearValue] = useState([]);
-  // const [acad, setAcad] = useState("");
+
   const [selectAcademic, setSelectAcademic] = useState("");
   const [selectedCheckboxes, setSelectedCheckboxes] = useState({});
   const [attendence, setAttendence] = useState([]);
@@ -34,99 +58,92 @@ const EditAttendance = () => {
     "FRIDAY",
     "SATURDAY",
   ];
+
   const [today, setToday] = useState(dayNames[day]);
   const handleDateChange = (e) => {
     setDate(new Date(e.target.value));
-    // setDay(new Date(e.target.value).getDay());
-    // const day = new Date(e.target.value).getDay();
 
     setToday(dayNames[day]);
   };
 
-  // useEffect(() => {
-  //   handleAcademicChange();
-  // }, [today]);
-
   const getEditAttendance = async () => {
-    console.log("values", year, academicyear, date);
     try {
       const response = await API.post(
         "/attendance/getAttendenceByYearAcademicyearId",
         {
-          year: year,
-          academicYear: academicyear,
-          date: date,
+          year: yearEdit,
+          academicYear: academicyearEdit,
+          date: dateEdit,
         }
       );
+      if (response?.data?.length === 0) {
+        setPopup(true);
+      }
+
       setEditAttendance(response?.data);
-      console.log("it is response", response);
-    } catch (error) {}
+
+      setPeriodsArray(
+        response?.data[0]?.subjects?.map((period) => period.time) ||
+          periodsArray
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleAcademicChange = async (e) => {
-    const academicyear = e.target.value;
-    setAcademicyear(academicyear);
-    setSelectAcademic(academicyear);
-  };
+  // const handleAcademicChange = async (e) => {
+  //   const academicyear = e.target.value;
+  //   setAcademicyear(academicyear);
+  //   setSelectAcademic(academicyear);
+  // };
 
   // var attendence = [];
 
-  const handleYearChange = async (e) => {
-    setSelectYear(e.target.value);
-    const year = e.target.value;
-    setYear(year);
-  };
+  // const handleYearChange = async (e) => {
+  //   setSelectYear(e.target.value);
+  //   const year = e.target.value;
+  //   setYear(year);
+  // };
 
   useEffect(() => {
-    if (year && academicyear && date) {
+    if (yearEdit && academicyearEdit && dateEdit) {
       // getAttendenceByYearAcademicyearId
-
+      // setDateValue(datevalue?.getDate());
       getEditAttendance();
     }
-  }, [date, year, academicyear]);
+  }, [dateEdit, yearEdit, academicyearEdit, periodEdit]);
   const getSelect = async () => {
     const response = await API.get(
       "/timetable/getTimetableYearAndAcademicyear"
     );
     setYearValue(response?.data?.years);
 
-    // setSelectYear(response?.data?.years);
-    // setAcademicYearValue(["2019-2020", "2021-2022", "2018-2019", "2020-2021"]);
     setAcademicYearValue(response?.data?.academicyears);
   };
 
-  const handleAttendence = (e) => {
-    const subject = e.target.className.split("@");
-    const studentId = e.target.id;
+  // const handleAttendence = (e) => {
+  //   const subject = e.target.className.split("@");
+  //   const studentId = e.target.id;
 
-    // Find the student in the attendence array
-    const targetStudentIndex = attendence.findIndex(
-      (student) => student.studentId === studentId
-    );
+  //   // Find the student in the attendence array
+  //   const targetStudentIndex = attendence.findIndex(
+  //     (student) => student.studentId === studentId
+  //   );
 
-    if (targetStudentIndex !== -1) {
-      // Find the subject index in the subjects array of the student
-      const existingSubjectIndex = attendence[
-        targetStudentIndex
-      ].subjects.findIndex((subj) => subj.subject === subject[1]);
+  //   if (targetStudentIndex !== -1) {
+  //     // Find the subject index in the subjects array of the student
+  //     const existingSubjectIndex = attendence[
+  //       targetStudentIndex
+  //     ].subjects.findIndex((subj) => subj.subject === subject[1]);
 
-      if (existingSubjectIndex !== -1) {
-        // Toggle the 'present' value for the subject
-        attendence[targetStudentIndex].subjects[existingSubjectIndex].present =
-          !attendence[targetStudentIndex].subjects[existingSubjectIndex]
-            .present;
-
-        console.log(
-          "present value",
-          attendence[targetStudentIndex].subjects[existingSubjectIndex].present
-        );
-      }
-    }
-  };
-
-  //   useEffect(() => {
-
-  //   }, [date]);
+  //     if (existingSubjectIndex !== -1) {
+  //       // Toggle the 'present' value for the subject
+  //       attendence[targetStudentIndex].subjects[existingSubjectIndex].present =
+  //         !attendence[targetStudentIndex].subjects[existingSubjectIndex]
+  //           .present;
+  //     }
+  //   }
+  // };
 
   const sortMBBSValues = (a, b) => {
     // Extract the alphabetic part from the strings
@@ -183,6 +200,7 @@ const EditAttendance = () => {
   const handleUpdateAttendance = async () => {
     //editAttendance
     let data = [];
+
     editAttendance.forEach((attendance) => {
       data = [...data, attendance.subjects];
     });
@@ -192,15 +210,62 @@ const EditAttendance = () => {
         const response = await API.post("/attendance/editAttendance", {
           subjects: data,
         });
+
         if (response.status == 200) {
           toast.success("Attendance Updated Successfully");
+          setNotification({
+            message: "Attendance Updated Successfully!",
+            type: "success",
+          });
+          setTimeout(() => {
+            setNotification({
+              message: "",
+              type: "",
+            });
+          }, 3000);
           getEditAttendance();
         }
       } catch (error) {
+        console.log(error);
+        setNotification({
+          message: "Failed to Update Attendance",
+          type: "error",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
         toast.error("Failed to Update Attendance");
-        console.log("err", error);
       }
     }
+  };
+
+  const handleSelectAll = (e, time) => {
+    const isChecked = e.target.checked;
+    const updatedSelectedCheckboxes = { ...selectedCheckboxes };
+    updatedSelectedCheckboxes[time] = isChecked;
+    setSelectedCheckboxes(updatedSelectedCheckboxes);
+
+    const updatedAttendance = editAttendance?.map((student) => ({
+      ...student,
+      subjects: student?.subjects?.map((subject) => {
+        if (subject.time === time) {
+          return {
+            ...subject,
+            present: isChecked,
+          };
+        } else {
+          return subject;
+        }
+      }),
+    }));
+    setEditAttendance(updatedAttendance);
+  };
+
+  const handleCancel = () => {
+    setPopup(false);
   };
 
   useEffect(() => {
@@ -217,22 +282,61 @@ const EditAttendance = () => {
       <h1 className="mb-3 text-xl font-medium text-adminyellow">
         Edit Attendence
       </h1>
+      {notification.message && <Notification {...notification} />}
       <div className="input">
-        <Toaster />
-        <select onChange={handleAcademicChange}>
-          <option>select</option>
-          {sortedAcademicYears?.map((academicyear) => (
-            <option value={academicyear}>{academicyear}</option>
-          ))}
+        <select>
+          <option value={academicyearEdit}>{academicyearEdit}</option>
+          {/* {sortedAcademicYears?.map((academicyear) => (
+            <option value={academicyearEdit}>{academicyearEdit}</option>
+          ))} */}
         </select>
-        <select onChange={handleYearChange}>
-          <option>Select</option>
-          {sortedYears?.map((year) => (
-            <option value={year}>{year}</option>
-          ))}
+        <select>
+          <option value={yearEdit}>{yearEdit}</option>
+          {/* {sortedYears?.map((year) => (
+            <option value={yearEdit}>{yearEdit}</option>
+          ))} */}
         </select>
-        <input type="date" required onChange={handleDateChange} />
+        <input
+          type="text"
+          // required
+          className="w-36"
+          value={datevalue}
+        />
       </div>
+      <div className="popup-container ">
+        {popup && (
+          <div className="popup-overlay">
+            <div className="popup ">
+              <p className="text-black mt-4">
+                Attendance for this date has not marked, do you want to Mark?
+              </p>
+              <div className="flex justify-between mt-8 pop">
+                <button
+                  onClick={handleCancel}
+                  style={{
+                    backgroundColor: "rgb(209, 213, 219)",
+                    color: "black",
+                  }}
+                >
+                  Cancel
+                </button>
+                <Link to="/attendance">
+                  <button
+                    // onClick={handleDelete}
+                    style={{
+                      backgroundColor: "rgba(189, 68, 46, 1)",
+                      color: "white",
+                    }}
+                  >
+                    Mark
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="Table table-container">
         <table className="table-auto scroll-table">
           <thead>
@@ -255,16 +359,20 @@ const EditAttendance = () => {
               >
                 Roll No
               </th>
-              <th>9am-11am</th>
-              <th>11am-12noon</th>
-              <th>12pm-2pm</th>
-
-              <th>2pm-4pm</th>
+              <th>{periodsArray[0]}</th>
+              <th>{periodsArray[1]}</th>
+              <th>{periodsArray[2]}</th>
+              <th>{periodsArray[3]}</th>
+              <th>{periodsArray[4]}</th>
+              <th>{periodsArray[5]}</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              {periods.map((period, index) => (
+              <td></td>
+              <td></td>
+
+              {periodEdit.map((period, index) => (
                 <td>
                   <label
                     htmlFor={`select${index}`}
@@ -283,7 +391,7 @@ const EditAttendance = () => {
                     id={`select${index}`}
                     type="checkbox"
                     style={{ display: "none" }} // Hide the checkbox
-                    // onChange={(e) => handleSelectAll(e, period.time)} // Use the hidden checkbox to trigger the selection/deselection
+                    onChange={(e) => handleSelectAll(e, period.time)} // Use the hidden checkbox to trigger the selection/deselection
                     checked={selectedCheckboxes[period.time]}
                   />
                 </td>

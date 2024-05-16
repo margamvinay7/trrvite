@@ -4,9 +4,11 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { API } from "../../Student/Student";
 import { GoArrowLeft } from "react-icons/go";
+import Notification from "../../Notification";
 
 const UpdateProfile = () => {
   const navigate = useNavigate();
+  const [notification, setNotification] = useState({ message: "", type: "" });
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [student, setStudent] = useState({
     id: "",
@@ -28,13 +30,11 @@ const UpdateProfile = () => {
       `/student/getStudentById?id=${state.id}`
     ).then((res) => {
       setStudent(res?.data);
-      console.log("student details", res?.data);
     });
   };
   const { state } = useLocation();
 
   const handleInputChange = async (event) => {
-    console.log("in inpyt");
     const { name, value } = event.target;
 
     setStudent((prevStudent) => ({
@@ -45,7 +45,7 @@ const UpdateProfile = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("st", student);
+
     try {
       const formData = new FormData();
       formData.append("image", image);
@@ -74,16 +74,43 @@ const UpdateProfile = () => {
         }
       );
       if (response.status == 200) {
-        console.log("re", response);
         toast.success("Student updated successfully!");
-        console.log("Student updated successfully!");
+        setNotification({
+          message: "Student Updated Successfully!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
         getStudent();
       } else if (response.status == 204) {
+        setNotification({
+          message: "Image must be lessthan 500X500",
+          type: "error",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
         toast.error("Image must be lessthan 500X500");
       }
     } catch (error) {
+      setNotification({
+        message: "Failed to Update Student",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: "",
+          type: "",
+        });
+      }, 3000);
       toast.error("Failed to Update Student");
-      console.error("Error updating student:", error);
     }
   };
 
@@ -102,7 +129,7 @@ const UpdateProfile = () => {
       </Link>
       <div className="flex flex-col items-center gap-x-1">
         <h2 className="text-black text-lg mb-5 ">Update Profile</h2>
-        <Toaster />
+        {notification.message && <Notification {...notification} />}
         <form
           onSubmit={handleSubmit}
           encType="multipart/form-data"

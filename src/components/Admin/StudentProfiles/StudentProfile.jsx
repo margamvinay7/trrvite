@@ -7,9 +7,11 @@ import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { API } from "../../Student/Student";
 import { FiSearch } from "react-icons/fi";
+import Notification from "../../Notification";
 
 const StudentProfile = () => {
   const [file, setFile] = useState(null);
+  const [notification, setNotification] = useState({ message: "", type: "" });
   const [yearValue, setYearValue] = useState([]);
   const [academicyearValue, setAcademicYearValue] = useState([]);
   const [selectAcademic, setSelectAcademic] = useState("");
@@ -17,8 +19,6 @@ const StudentProfile = () => {
   const [students, setStudents] = useState([]);
   const [searchlist, setSearchList] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-
-  console.log("studentprofile");
 
   const handleButtonClick = () => {
     setIsOpen(true); // Open popup on button click
@@ -36,17 +36,36 @@ const StudentProfile = () => {
         });
         if (response.status == 200) {
           toast.success("Student Data Deleted  successfully! ");
-          console.log("Student updated successfully!");
+          setNotification({
+            message: "Student Data Deleted  successfully!",
+            type: "success",
+          });
+          setTimeout(() => {
+            setNotification({
+              message: "",
+              type: "",
+            });
+          }, 3000);
+
           setTimeout(() => {
             window.location.reload();
           }, 1000);
         }
       } catch (error) {
-        console.log("err", error);
+        setNotification({
+          message: "Failed to  Delete Students Data",
+          type: "error",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
+
         toast.error("Failed to  Delete Students Data");
       }
 
-      console.log("Item deleted!");
       setIsOpen(false);
     }
   };
@@ -65,39 +84,27 @@ const StudentProfile = () => {
     let response;
 
     if (year && academicyear) {
-      console.log("res1", year, academicyear);
       response = await API.get(
         `/student/getStudentByYearAndAcademicYear?year=${year}&academicyear=${academicyear}`
       );
       setStudents(response?.data);
       setSearchList(response?.data);
-      console.log("stude", response);
     }
-
-    // setStudents(response?.data);
-    // console.log("stude", response);
   };
   const handleAcademicChange = async (e) => {
     const year = selectYear;
     const academicyear = e.target.value;
     setSelectAcademic(e.target.value);
-    // const response = await API.get(
-    //   `/student/getStudentByYearAndAcademicYear?year=MBBS-I&academicyear=2024-2025`
-    // );
+
     let response;
 
     if (year && academicyear) {
-      console.log("res1", year, academicyear);
       response = await API.get(
         `/student/getStudentByYearAndAcademicYear?year=${year}&academicyear=${academicyear}`
       );
       setStudents(response?.data);
       setSearchList(response?.data);
-      console.log("stude", response);
     }
-
-    // setStudents(response?.data);
-    // console.log("stude", response);
   };
 
   const handleSearch = (e) => {
@@ -122,9 +129,6 @@ const StudentProfile = () => {
     const response = await API.get("/student/getYearAndAcademicYear");
     setYearValue(response?.data?.years);
     setAcademicYearValue(response?.data?.academicyears);
-    // setSelectAcademic(response?.data?.academicyears[0]);
-    // setSelectYear(response?.data?.years[0]);
-    console.log("response", response?.data);
   };
 
   const handleSubmit = async (e) => {
@@ -141,26 +145,42 @@ const StudentProfile = () => {
         ).then((res) => {
           // toast.success("File uploaded successfully");
           if (res.status == 200) {
+            setNotification({
+              message: "Student Profiles Upload Successfully!",
+              type: "success",
+            });
+            setTimeout(() => {
+              setNotification({
+                message: "",
+                type: "",
+              });
+            }, 3000);
             toast.success("File uploaded successfully");
-            console.log("File uploaded successfully", res);
 
             setFile(null);
             e.target.reset();
 
             getSelect();
           } else {
-            console.log(res);
             toast.error("Failed to upload file , Check File");
-
+            setNotification({
+              message: "Failed to Upload Student Profiles!",
+              type: "error",
+            });
+            setTimeout(() => {
+              setNotification({
+                message: "",
+                type: "",
+              });
+            }, 3000);
             setFile(null);
             e.target.reset();
-            console.error("Failed to upload file");
           }
         });
       }
     } catch (error) {
       toast.error("Failed to upload file , Check File");
-      console.error("Error:", error);
+
       setFile(null);
       e.target.reset();
     }
@@ -219,7 +239,7 @@ const StudentProfile = () => {
             <option value={year}>{year}</option>
           ))}
         </select>
-        <Toaster />
+
         <div>
           <form onSubmit={(e) => handleSubmit(e)} encType="multipart/form-data">
             <button className="me-1">
@@ -239,9 +259,8 @@ const StudentProfile = () => {
             />
           </form>
         </div>
-
-        {/* delete students profiles
-         <div className="popup-container ">
+        {notification.message && <Notification {...notification} />}
+        <div className="popup-container ">
           <button onClick={handleButtonClick}>Delete</button>
           {isOpen && (
             <div className="popup-overlay">
@@ -272,7 +291,7 @@ const StudentProfile = () => {
               </div>
             </div>
           )}
-        </div> */}
+        </div>
         <div className="flex items-center bg-white pe-2 rounded-md">
           <input
             className="w-[15vw] rounded-md text-black ps-2 p-1  placeholder-slate-600"

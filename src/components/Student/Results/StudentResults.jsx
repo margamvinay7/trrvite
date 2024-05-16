@@ -13,25 +13,12 @@ const StudentResults = () => {
   const [assessments, setAssessments] = useState([]);
   const [assessmentSubjects, setAssessmentSubjects] = useState([]);
 
-  // const getSelect = async () => {
-  //   const response = await axios.get(
-  //     "http://localhost:5000/select/getAssessmentyearAndAcademicyear"
-  //   );
-  //   setYears(response?.data?.years);
-
-  //   console.log("response", response?.data?.years);
-  // };
-
   const handleYearChange = async () => {
-    // const year = e.target.value;
-    // setSelectYear(e.target.value);
-
     const response = await API.get(
       `/result/getAssessmentsByYearAndId?id=${username}&year=${year}`
     );
 
     setAssessments(response?.data);
-    console.log("ass", response.data);
   };
 
   const handleAssessmentChange = async (e) => {
@@ -41,9 +28,8 @@ const StudentResults = () => {
     const response = await API.get(
       `/result/getAssessmentByYearAndIdAndAssessment?id=${username}&year=${year}&assessment=${assessmentName}`
     );
-    // setAssessments(response?.data);
+
     setAssessmentSubjects(response?.data?.assessmentSubjects);
-    console.log("assess res", response?.data);
   };
 
   const sortOrder = [
@@ -69,20 +55,10 @@ const StudentResults = () => {
     }
     setSelectAssessment("");
     setAssessmentSubjects([]);
-    // getSelect();
   }, [year]);
   return (
-    <div className="studentResults min-h-[calc(100vh-248px)] pb-20">
+    <div className="studentResults min-h-[calc(100vh-232px)] pb-20">
       <div className="exam">
-        {/* <div>
-          <h4>Select Year</h4>
-          <select value={selectYear} onChange={handleYearChange}>
-            <option>select Year</option>
-            {years?.map((year) => (
-              <option value={year.year}>{year.year}</option>
-            ))}
-          </select>
-        </div> */}
         <div>
           <h4>Select Exam</h4>
           <select value={selectAssessment} onChange={handleAssessmentChange}>
@@ -95,15 +71,25 @@ const StudentResults = () => {
           </select>
         </div>
       </div>
-      <div className="Table">
+      <div className="Table table-container">
         <div className="text-white">{selectAssessment}</div>
-        <table className="table-auto">
+        <table className="table-auto scroll-table">
           <thead>
-            <th style={{ textAlign: "left", paddingLeft: "20px" }}>
-              DEPARTMENT
-            </th>
-            <th>THEORY 100 Marks</th>
-            <th>PRACTICAL 100 Marks</th>
+            <tr>
+              <th style={{ textAlign: "left", paddingLeft: "20px" }}>
+                DEPARTMENT
+              </th>
+              {/* Wrap THEORY content in two lines */}
+              <th>
+                THEORY <br />
+                100 Marks
+              </th>
+              {/* Wrap PRACTICAL content in two lines */}
+              <th>
+                PRACTICAL <br />
+                100 Marks
+              </th>
+            </tr>
           </thead>
           <tbody>
             {assessmentSubjects?.map((subject) => (

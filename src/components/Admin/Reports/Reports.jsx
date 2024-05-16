@@ -26,7 +26,7 @@ const Reports = () => {
   };
 
   const sortMBBSValues = (a, b) => {
-    const getAlphabeticPart = (str) => str.split("-")[1];
+    const getAlphabeticPart = (str) => str?.split("-")[1];
     const alphabeticValues = { I: 1, II: 2, III: 3, IV: 4 };
     const aValue = alphabeticValues[getAlphabeticPart(a)];
     const bValue = alphabeticValues[getAlphabeticPart(b)];
@@ -36,17 +36,16 @@ const Reports = () => {
 
   const compareAcademicYears = (a, b) => {
     const getLastYear = (academicYear) => {
-      return parseInt(academicYear.split("-")[1]);
+      return parseInt(academicYear?.split("-")[1]);
     };
     return getLastYear(b) - getLastYear(a);
   };
   const sortedAcademicYears = academicyearValue.sort(compareAcademicYears);
 
   const getSelect = async () => {
-    const response = await API.get("/student/getYearAndAcademicYear");
+    const response = await API.get("/student/getAllYearsAndAcademicYears");
     setYearValue(response?.data?.years);
     setAcademicYearValue(response?.data?.academicyears);
-    console.log("response", response?.data);
   };
 
   useEffect(() => {

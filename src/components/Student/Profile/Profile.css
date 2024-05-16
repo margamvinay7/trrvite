@@ -36,6 +36,6 @@
     @apply rounded-sm w-48 text-center p-1;
   }
   .sProfile .results td {
-    @apply text-nowrap p-1 text-center overflow-hidden;
+    @apply text-nowrap p-1 text-center overflow-hidden text-sm;
   }
 }

@@ -11,7 +11,7 @@ import { GoArrowLeft } from "react-icons/go";
 const List = () => {
   const data = useSelector((state) => state.editReducer);
   const [count, setCount] = useState([]);
-  console.log("list data", data);
+
   const [list, setList] = useState([]);
   const [searchlist, setSearchList] = useState([]);
 
@@ -21,14 +21,8 @@ const List = () => {
       `/result/getAssessmentList?year=${data.year}&academicyear=${data.academicyear}&assessment=${data.assessment}`
     );
     setList(response.data);
-    console.log(response.data);
+
     setSearchList(response.data);
-    // setCount(response?.data[0]?.AssessmentSubject);
-    // console.log(
-    //   "response data",
-    //   response.data,
-    //   response?.data[0]?.AssessmentSubject
-    // );
   };
 
   const handleSearch = (e) => {

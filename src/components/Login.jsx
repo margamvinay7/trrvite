@@ -10,17 +10,12 @@ import { jwtDecode } from "jwt-decode";
 import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
-  // const [user, setUser] = useState({
-  //   username: "",
-  //   password: "",
-  // });
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    console.log("use", username, password);
     try {
       const response = await axios.post(
         "https://trrmedical.3pixelsonline.in/api/login/loginuser",
@@ -38,15 +33,15 @@ const Login = () => {
       } else {
         toast.error("Invalid Username or Password");
       }
-      console.log("log", response?.data);
+
       dispatch(studentActions.login(username));
       sessionStorage.setItem("token", response?.data);
       const token = sessionStorage.getItem("token");
-      console.log("token", token);
+
       let user1;
       if (token) {
         const decoded = jwtDecode(token);
-        console.log(decoded);
+
         const { user, roles } = decoded.UserInfo;
         user1 = user;
         const role = roles;
@@ -60,10 +55,7 @@ const Login = () => {
       if (user1 === "student") {
         navigate("/student");
       }
-      console.log("log", response?.data);
-    } catch (error) {
-      console.error("Invalid Username or Password");
-    }
+    } catch (error) {}
   };
 
   // const handleChange = (e) => {
@@ -74,7 +66,7 @@ const Login = () => {
     <div className="w-[100vw] flex bg-login justify-center  items-center h-[100vh]">
       <div className=" bg-login1 rounded-lg flex justify-center items-center flex-col w-72 h-80">
         <div className="text-white font-bold mb-5">Login</div>
-        <Toaster />
+
         <div className="flex justify-center flex-col gap-y-5 items-center">
           <div className="flex bg-login2 w-48  rounded-[6px] ps-2 items-center">
             <CgProfile

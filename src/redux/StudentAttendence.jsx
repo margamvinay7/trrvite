@@ -10,19 +10,15 @@ const studentAttendence = createSlice({
   },
   reducers: {
     setDate: (state, action) => {
-      console.log("selected Dates", startDate, endDate);
       state.startDate = action.payload.startDate;
       state.endDate = action.payload.endDate;
       return;
     },
     setDate: (state, action) => {
-      console.log("selected Dates", startDate, endDate);
       state.startDate = action.payload.startDate;
       state.endDate = action.payload.endDate;
       return;
     },
-    setMonth: (state, action) => {
-      console.log("selected Month", action.payload.month);
-    },
+    setMonth: (state, action) => {},
   },
 });

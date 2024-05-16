@@ -4,10 +4,16 @@ import axios from "axios";
 import { API } from "../Student";
 import { useSelector } from "react-redux";
 const DateWise = ({ startDate, endDate }) => {
+  const [periodsArray, setPeriodsArray] = useState([
+    "9am-10am",
+    "10am-11am",
+    "11am-12pm",
+    "12pm-1pm",
+    "2pm-3pm",
+    "3pm-4pm",
+  ]);
   const [attendence, setAttendence] = useState([]);
   const username = useSelector((state) => state.studentReducer.username);
-
-  console.log("start date in datewise", startDate, endDate);
 
   const handleDate = (date) => {
     const formatedDate = `${date.split("-")[2]}-${date.split("-")[1]}-${
@@ -17,13 +23,15 @@ const DateWise = ({ startDate, endDate }) => {
   };
 
   const getAttendence = async () => {
-    console.log("in getAttendence");
-    //9747674821
     const response = await API.get(
       `/attendance/getAttendanceByIdAndDateRange?id=${username}&startDate=${startDate}&endDate=${endDate}`
     );
-    console.log("response attendence", response?.data);
+
     setAttendence(response?.data);
+
+    setPeriodsArray(
+      response?.data[0]?.subjects?.map((period) => period.time) || periodsArray
+    );
   };
 
   const customDateSort = (a, b) => {
@@ -49,16 +57,18 @@ const DateWise = ({ startDate, endDate }) => {
   }, [startDate, endDate]);
 
   return (
-    <div className="datewisepage min-h-[calc(100vh-248px)] pb-20">
+    <div className="datewisepage min-h-[calc(100vh-232px)] pb-20">
       <div className="Table table-container">
         <table className="table-auto scroll-table">
           <thead>
             <tr>
               <th>Date</th>
-              <th>9am-11am</th>
-              <th>11am-12noon</th>
-              <th>12pm-1pm</th>
-              <th>2pm-4pm</th>
+              <th>{periodsArray[0]}</th>
+              <th>{periodsArray[1]}</th>
+              <th>{periodsArray[2]}</th>
+              <th>{periodsArray[3]}</th>
+              <th>{periodsArray[4]}</th>
+              <th>{periodsArray[5]}</th>
             </tr>
           </thead>
           <tbody>

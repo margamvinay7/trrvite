@@ -35,16 +35,16 @@
   @apply w-24 rounded-sm;
 }
 
-.popup-container {
+.profiles .popup-container {
   position: relative; /* Needed for background blur */
 }
 
-.popup {
+.profiles .popup {
   position: fixed; /* Keep popup above other elements */
   top: 50%;
   left: 50%;
   width: 300px;
-  height: 250px;
+  height: 180px;
   border-radius: 20px;
   transform: translate(-50%, -50%); /* Center the popup */
   background-color: white;
@@ -54,7 +54,7 @@
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); Optional subtle shadow */
 }
 
-.popup-overlay {
+.profiles .popup-overlay {
   /* Style for background blur (adjust properties as needed) */
   position: fixed;
   top: 50%;

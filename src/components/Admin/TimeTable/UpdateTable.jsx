@@ -6,6 +6,7 @@ import "./CreateNew.css";
 import toast, { Toaster } from "react-hot-toast";
 import { API } from "../../Student/Student";
 import { GoArrowLeft } from "react-icons/go";
+import Notification from "../../Notification";
 
 const dayOrderMap = {
   MONDAY: 1,
@@ -22,10 +23,9 @@ const Periods = ({ periods, onUpdate }) => {
 
     if (selectedOption !== null && e == null) {
       const newValue = updatedPeriods[index].subject?.split("(")[0];
-      console.log("index", updatedPeriods[index], "ind", index);
+
       updatedPeriods[index].subject = newValue + selectedOption;
     } else {
-      console.log("index 1", updatedPeriods[index], "ind", index);
       updatedPeriods[index].subject = e;
     }
 
@@ -65,14 +65,29 @@ const Periods = ({ periods, onUpdate }) => {
 };
 
 const UpdateTable = () => {
+  const [periodTime, setPeriodTime] = useState(Array(6).fill(""));
   let { state } = useLocation();
-  console.log("state", state);
+  const [notification, setNotification] = useState({ message: "", type: "" });
   const navigate = useNavigate();
   const [selectAcademic, setSelectAcademic] = useState(state.academicyear);
   const [selectYear, setSelectYear] = useState(state.year);
   const [timetable, setTimetable] = useState([]);
   const [year, setYear] = useState(selectYear);
   const [id, setId] = useState(state.id);
+  const [periodsTime, setPeriodsTime] = useState([]);
+
+  const handlePeriodTimeChange = (e) => {
+    const index = parseInt(e.target.id, 10); // Parse id to integer
+    const updatedPeriodTime = [...periodTime]; // Create a copy of the periodTime array
+    updatedPeriodTime[index] = e.target.value; // Update the specific index with the new value
+    setPeriodTime(updatedPeriodTime);
+
+    const updatedTimetable = [...timetable];
+    updatedTimetable.forEach((day) => {
+      day.Periods[index].time = e.target.value;
+    });
+    setTimetable(updatedTimetable);
+  };
 
   const handleGetTimetable = async () => {
     const year = selectYear;
@@ -82,7 +97,19 @@ const UpdateTable = () => {
         const response = await API.get(
           `/timetable/getTimetableBYyearAndAcademicyear?year=${year}&academicyear=${academicyear}`
         );
-        console.log("re u t", response);
+
+        const retrievedTimetable = response.data.Days || [];
+        const retrievedPeriodTimes = [];
+
+        // Iterate through each day's periods to extract the times
+        retrievedTimetable.forEach((day) => {
+          day.Periods.forEach((period) => {
+            retrievedPeriodTimes.push(period.time);
+          });
+        });
+
+        // Update the periodTime state with the retrieved period times
+        setPeriodsTime(retrievedPeriodTimes);
 
         setTimetable(
           response?.data?.Days.map((day) => ({
@@ -99,7 +126,7 @@ const UpdateTable = () => {
   const sortedTimetable = timetable?.sort(
     (a, b) => dayOrderMap[a.day] - dayOrderMap[b.day]
   );
-  //   console.log("sort array", sortedTimetable);
+
   useEffect(() => {
     if (selectYear && selectAcademic) {
       handleGetTimetable();
@@ -110,11 +137,6 @@ const UpdateTable = () => {
     const year = selectYear;
     const academicyear = selectAcademic;
     const tableId = id;
-    console.log("Updated Timetable:", {
-      year,
-      academicyear,
-      Days: timetable,
-    });
 
     try {
       const response = await API.post(`/timetable/updateTimetable`, {
@@ -126,28 +148,35 @@ const UpdateTable = () => {
 
       if (response.status == 200) {
         toast.success("Table Edited successfully");
-        console.log("File uploaded successfully");
+        setNotification({
+          message: "Table Edited successfully!",
+          type: "success",
+        });
+        setTimeout(() => {
+          setNotification({
+            message: "",
+            type: "",
+          });
+        }, 3000);
+
         handleGetTimetable();
       } else {
         console.error("Failed to upload file");
       }
     } catch (error) {
+      setNotification({
+        message: "Failed to Update Timetable",
+        type: "error",
+      });
+      setTimeout(() => {
+        setNotification({
+          message: "",
+          type: "",
+        });
+      }, 3000);
+
       toast.error("Failed to upload file");
-      console.error("Error:", error);
     }
-    // try {
-    //   await axios
-    //     .post(`http://localhost:5000/timetable/updateTimetable/${tableId}`, {
-    //       year,
-    //       academicyear,
-    //       Days: timetable,
-    //     })
-    //     .then((res) => {
-    //       navigate("/timetable");
-    //     });
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   return (
@@ -160,18 +189,82 @@ const UpdateTable = () => {
         <GoArrowLeft style={{ color: "white", height: 30, width: 30 }} />
       </Link>
       <h1 className="mb-3 font-medium">Time Table</h1>
-
+      {notification.message && <Notification {...notification} />}
       <div className="mt-5 text-xl">{year}</div>
       <div className="Table table-container">
-        <Toaster />
         <table className="table-auto scroll-table">
           <thead>
             <tr>
               <th>Day</th>
-              <th>9am-11am</th>
-              <th>11am-12noon</th>
-              <th>12pm-1pm</th>
-              <th>2pm-4pm</th>
+              <th>
+                <input
+                  id={0}
+                  onChange={(e) => handlePeriodTimeChange(e)}
+                  value={periodTime[0] === "" ? periodsTime[0] : periodTime[0]}
+                  type="text"
+                  placeholder="Enter Period Time"
+                  className=" text-sm text-black  py-1 text-center"
+                  required
+                />
+              </th>
+
+              <th>
+                <input
+                  id={1}
+                  onChange={(e) => handlePeriodTimeChange(e)}
+                  value={periodTime[1] === "" ? periodsTime[1] : periodTime[1]}
+                  required
+                  type="text"
+                  placeholder="Enter Period Time"
+                  className=" text-sm text-black  py-1 text-center"
+                />
+              </th>
+
+              <th>
+                <input
+                  onChange={(e) => handlePeriodTimeChange(e)}
+                  value={periodTime[2] === "" ? periodsTime[2] : periodTime[2]}
+                  id={2}
+                  required
+                  type="text"
+                  placeholder="Enter Period Time"
+                  className=" text-sm text-black  py-1 text-center"
+                />
+              </th>
+
+              <th>
+                <input
+                  onChange={(e) => handlePeriodTimeChange(e)}
+                  value={periodTime[3] === "" ? periodsTime[3] : periodTime[3]}
+                  id={3}
+                  required
+                  type="text"
+                  placeholder="Enter Period Time"
+                  className=" text-sm  text-black py-1 text-center"
+                />
+              </th>
+              <th>
+                <input
+                  onChange={(e) => handlePeriodTimeChange(e)}
+                  value={periodTime[4] === "" ? periodsTime[4] : periodTime[4]}
+                  id={4}
+                  required
+                  type="text"
+                  placeholder="Enter Period Time"
+                  className=" text-sm  text-black py-1 text-center"
+                />
+              </th>
+              <th>
+                <input
+                  onChange={(e) => handlePeriodTimeChange(e)}
+                  value={periodTime[5] === "" ? periodsTime[5] : periodTime[5]}
+                  id={5}
+                  required
+                  type="text"
+                  placeholder="Enter Period Time"
+                  className=" text-sm  text-black py-1 text-center"
+                />
+              </th>
             </tr>
           </thead>
           <tbody>

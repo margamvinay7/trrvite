@@ -7,7 +7,7 @@
 }
 
 .studentAttendence .datewise {
-  @apply p-2 flex items-center  flex-col;
+  @apply p-2 flex items-center   flex-col;
 }
 
 .studentAttendence .datewise input {
@@ -23,6 +23,9 @@
 
 .attendencedatestatus .status {
   @apply flex flex-col justify-center items-start ps-20  w-full;
+}
+.attendencedatestatus .status1 {
+  @apply flex flex-col justify-center items-start ps-20 sm:hidden  w-full;
 }
 
 .studentAttendence .status div {
@@ -99,16 +102,22 @@ Datewise table
 }
 
 @media (max-width: 500px) {
+  .studentAttendence .attendencedatestatus {
+    @apply flex flex-row text-white bg-studentattendenceblue1  ms-1;
+  }
   .studentAttendence .datewise {
     @apply text-sm flex flex-col;
   }
 
   .studentAttendence .monthwise {
-    @apply text-xs;
+    @apply text-xs w-[30%];
   }
 
   .attendencedatestatus .status {
-    @apply flex flex-col ps-0 justify-center items-start    w-full;
+    @apply sm:flex flex-col ps-0 justify-center items-start hidden   w-full;
+  }
+  .attendencedatestatus .status1 {
+    @apply flex sm:hidden flex-row ps-0 justify-center items-start gap-x-3   w-full;
   }
 
   .studentAttendence select {
@@ -165,7 +174,7 @@ Datewise table
 
   /* monthwise */
   .monthwisepage table {
-    @apply w-[95vw] border-collapse;
+    @apply w-[95vw] mx-1;
   }
   .monthwisepage .Table th {
     @apply text-nowrap  text-center  font-normal overflow-hidden bg-studentmonthblue text-xs  text-blue-400;
@@ -173,5 +182,15 @@ Datewise table
 
   .monthwisepage .Table td {
     @apply text-nowrap p-1 text-center text-xs overflow-hidden;
+  }
+
+  .monthwisepage .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .monthwisepage .scroll-table {
+    border-collapse: collapse;
+    width: max-content; /* Prevent text wrapping */
   }
 }

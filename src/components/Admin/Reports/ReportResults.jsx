@@ -15,7 +15,6 @@ import * as XLSX from "xlsx";
 
 const Pdf = ({ tableData }) => {
   const downloadPDF = () => {
-    console.log("in pdf fn");
     const doc = new jsPDF();
     // doc.text("Student Information", 10, 10);
 
@@ -160,7 +159,6 @@ const TableToExcel = ({ tableData }) => {
 
 const Print = ({ tableData }) => {
   const printPDF = () => {
-    console.log("in print");
     const doc = new jsPDF();
     doc.autoTable({
       head: [
@@ -227,7 +225,7 @@ function CustomDropdown({ options }) {
     (assessment) =>
       assessment.status === "Fail" || assessment.status === "Failed"
   );
-  console.log("array in dropdown", filteredData);
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -272,17 +270,14 @@ const ReportResults = ({ academicyear, year }) => {
   const [students, setStudents] = useState([]);
 
   const handleAssessment = (e) => {
-    console.log("assessment name", e.target.value);
     setAssessment(e.target.value);
   };
 
   const handletype = (e) => {
-    console.log("type name", e.target.value);
     setType(e.target.value);
   };
 
   const getAssessment = async () => {
-    console.log("year values in get assessment", year, academicyear);
     const response = await API.get(
       `/result/getAssessments?year=${year}&academicyear=${academicyear}`
     );
@@ -310,8 +305,6 @@ const ReportResults = ({ academicyear, year }) => {
     const response = await API.get(
       `/result/getAttendanceReports?year=${passedYear}&academicyear=${passedAcademicyear}&assessment=${assessment}`
     );
-
-    console.log("res", response?.data);
 
     if (type == "All") {
       setStudents(response?.data);
@@ -370,7 +363,6 @@ const ReportResults = ({ academicyear, year }) => {
 
   useEffect(() => {
     if (passedAcademicyear && passedYear && assessment && type) {
-      console.log("year and academicyear", passedAcademicyear, passedYear);
       getStudent();
     }
   }, [passedAcademicyear, passedYear, assessment, type]);

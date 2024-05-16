@@ -32,7 +32,7 @@
 
 @media (max-width: 500px) {
   .studentResults table {
-    @apply w-[95vw] border-collapse;
+    @apply w-[95vw];
   }
   .studentResults .Table th {
     @apply text-nowrap  text-center overflow-hidden text-xs;

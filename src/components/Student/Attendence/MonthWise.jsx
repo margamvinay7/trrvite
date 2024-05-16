@@ -8,7 +8,6 @@ const MonthWise = ({ month }) => {
   const [present, setPresent] = useState("");
   const [percentage, setPercentage] = useState("");
   const username = useSelector((state) => state.studentReducer.username);
-  console.log("selected month", month);
 
   const months = [
     "January",
@@ -26,17 +25,15 @@ const MonthWise = ({ month }) => {
   ];
 
   const monthnumber = month?.split("-")[1];
-  console.log("month", monthnumber);
+
   const year = month?.split("-")[0];
   const getAttendence = async () => {
-    //9747674821
     const response = await API.get(
       `/attendance/getAttendanceByIdAndMonth?id=${username}&month=${monthnumber}&year=${year}`
     );
     setSubjects(response.data[0]);
     setPresent(response.data[1]);
     setPercentage(response?.data[2]);
-    console.log("response of month", response.data);
   };
 
   useEffect(() => {
@@ -45,27 +42,27 @@ const MonthWise = ({ month }) => {
     }
   }, [month]);
   return (
-    <div className="monthwisepage min-h-[calc(100vh-248px)] pb-20">
-      <div className="flex flex-col items-center">
+    <div className="monthwisepage min-h-[calc(100vh-232px)] pb-20">
+      <div className="flex flex-col items-center ms-1">
         <div className="text-white">
           {monthnumber ? `${months[Number(monthnumber - 1)]}-${year}` : ""}
         </div>
-        <div className="Table">
-          <table>
+        <div className="Table table-container">
+          <table className="table-auto scroll-table">
             <thead>
               <tr>
-                <th style={{ textAlign: "left", paddingLeft: "20px" }}>
+                <th style={{ textAlign: "left", paddingLeft: "60px" }}>
                   DEPARTMENT
                 </th>
-                <th>Working Days</th>
-                <th>Present</th>
+                <th style={{ paddingRight: "20px" }}>Working Days</th>
+                <th style={{ paddingRight: "20px" }}>Present</th>
                 <th>Percentage</th>
               </tr>
             </thead>
             <tbody>
               {Object.keys(subjects).map((key) => (
                 <tr>
-                  <td style={{ textAlign: "left", paddingLeft: "20px" }}>
+                  <td style={{ textAlign: "left", paddingLeft: "60px" }}>
                     {key}
                   </td>
                   <td>{subjects[key]}</td>

@@ -9,8 +9,6 @@ const StudentAttendence = () => {
   const [endDate, setendDate] = useState("");
   const [month, setMonth] = useState("");
 
-  console.log("set dates", startDate, endDate);
-
   const handleClickdate = () => {
     setDatewise(true);
   };
@@ -22,7 +20,7 @@ const StudentAttendence = () => {
       <div className="nav">
         <div className="attendencedatestatus" onClick={handleClickdate}>
           <div className="datewise">
-            <div className="text-sm">Know date wise</div>
+            <div className="text-sm">Date wise</div>
             <div className="flex flex-row items-center">
               <label htmlFor="from" className="text-sm">
                 From:{" "}
@@ -45,6 +43,14 @@ const StudentAttendence = () => {
                 onChange={(e) => setendDate(e.target.value)}
               />
             </div>
+            <div className="status1">
+              <div className="text-xs sm:text-sm flex flex-row items-center gap-x-1">
+                <div className="statusbar bg-green-700"></div>Present
+              </div>
+              <div className="text-xs sm:text-sm flex flex-row items-center gap-x-1">
+                <div className="statusbar bg-customorange"></div> Absent
+              </div>
+            </div>
           </div>
           <div className="status">
             <div className="text-xs sm:text-sm">
@@ -56,8 +62,8 @@ const StudentAttendence = () => {
           </div>
         </div>
         <div className="monthwise" onClick={handleClickmonth}>
-          <div className="text-sm">Know month wise</div>
-          <div className="selectmonth text-sm">Select month</div>
+          <div className="text-sm ">Month wise</div>
+          <div className="selectmonth text-sm ">Select month</div>
           <input
             type="month"
             className="text-black text-center w-24 sm:w-32 md:w-48 mt-1 rounded-sm "
